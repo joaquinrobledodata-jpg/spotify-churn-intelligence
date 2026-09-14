@@ -222,10 +222,11 @@ with kpi4:
 st.markdown("<div style='height: 25px;'></div>", unsafe_allow_html=True)
 
 # Pestañas de la Aplicación
-tab1, tab2, tab3 = st.tabs([
+tab1, tab2, tab3, tab4 = st.tabs([
     "📊 Panel Ejecutivo & Cohortes",
     "🎯 Simulador de Riesgo en Vivo",
-    "🧠 Explicabilidad & Arquitectura ML"
+    "🧠 Explicabilidad & Arquitectura ML",
+    "📖 Glosario de Variables & Negocio"
 ])
 
 # --------------------------------------------------------------------------
@@ -258,6 +259,12 @@ with tab1:
             yaxis_tickformat=".0%"
         )
         st.plotly_chart(fig_plan, use_container_width=True)
+        with st.expander("💡 ¿Cómo interpretar este gráfico?"):
+            st.markdown("""
+            * **Qué muestra:** El porcentaje de usuarios que cancelan el servicio dentro de cada tipo de plan.
+            * **Lectura sencilla:** Las barras más altas indican mayor fuga. El plan **Free** suele tener el abandono más alto porque no tiene costo de salida. En cambio, los planes **Duo** o **Familiar** retienen mejor porque varios miembros dependen de la cuenta.
+            * **Acción de negocio:** Crear ofertas dirigidas a usuarios Free para migrarlos a planes accesibles (como Estudiante) y reducir la deserción.
+            """)
 
     with col_chart2:
         st.subheader("Razones Principales de Cancelación")
@@ -277,6 +284,12 @@ with tab1:
             font_color="#FFFFFF"
         )
         st.plotly_chart(fig_reasons, use_container_width=True)
+        with st.expander("💡 ¿Cómo interpretar este gráfico?"):
+            st.markdown("""
+            * **Qué muestra:** El desglose de los motivos declarados por los usuarios al darse de baja o dejar la plataforma.
+            * **Lectura sencilla:** Cada porción refleja el peso de un reclamo. Causas como **"Precio / Costo"** o **"Demasiados Anuncios"** concentran la mayor parte de las fugas.
+            * **Acción de negocio:** Balancear la frecuencia publicitaria en cuentas gratuitas y ofrecer descuentos temporales de retención antes de confirmar la baja.
+            """)
 
     st.markdown("<div style='height: 15px;'></div>", unsafe_allow_html=True)
 
@@ -305,6 +318,14 @@ with tab1:
             font_color="#FFFFFF"
         )
         st.plotly_chart(fig_scatter, use_container_width=True)
+        with st.expander("💡 ¿Cómo interpretar este gráfico?"):
+            st.markdown("""
+            * **Qué muestra:** El cruce entre el tiempo de uso y la cantidad de canciones saltadas.
+            * **Lectura sencilla:**
+              - Los puntos **rojos** (desertores) se concentran arriba a la izquierda: escuchan poco (< 1.5 horas) y saltan mucho (> 40%), lo que indica frustración o algoritmos de recomendación desalineados.
+              - Los puntos **verdes** (activos) están abajo a la derecha: disfrutan la música por horas y casi no saltan pistas.
+            * **Acción de negocio:** Enviar notificaciones con playlists personalizadas (*Daily Mix*) en cuanto un usuario comience a saltar canciones reiteradamente.
+            """)
 
     with col_chart4:
         st.subheader("Impacto de la Exposición a Anuncios (Plan Free)")
@@ -324,6 +345,12 @@ with tab1:
             showlegend=False
         )
         st.plotly_chart(fig_box, use_container_width=True)
+        with st.expander("💡 ¿Cómo interpretar este gráfico?"):
+            st.markdown("""
+            * **Qué muestra:** La distribución de comerciales semanales entre usuarios que siguen en la app (verde) vs. los que la abandonaron (rojo).
+            * **Lectura sencilla:** La caja muestra dónde se concentra el 50% de los usuarios. Quienes desertan recibían significativamente más impactos publicitarios (> 45-50 anuncios por semana).
+            * **Conclusión clave:** Existe un límite de tolerancia a la publicidad (*fatiga publicitaria*); sobrepasarlo acelera la desinstalación.
+            """)
 
 # --------------------------------------------------------------------------
 # TAB 2: SIMULADOR DE RIESGO EN VIVO
@@ -522,3 +549,66 @@ with tab3:
         ```
         """)
         st.info("💡 **Decisión de Negocio:** Se calibró el umbral de decisión a **0.40** en lugar de 0.50. Esto prioriza el **Recall**, capturando más del 85% de los clientes que están por cancelar, permitiendo al equipo de marketing actuar antes de que sea tarde.")
+
+# --------------------------------------------------------------------------
+# TAB 4: GLOSARIO DE VARIABLES & NEGOCIO
+# --------------------------------------------------------------------------
+with tab4:
+    st.subheader("📖 Glosario de Variables & Métricas de Negocio")
+    st.markdown("""
+    Una guía clara, directa y **sin tecnicismos complejos** para entender qué significa cada dato, 
+    cómo se calculó y por qué es relevante para la salud de una plataforma como Spotify.
+    """)
+    
+    g_col1, g_col2 = st.columns(2, gap="large")
+    
+    with g_col1:
+        with st.expander("👤 1. Perfil del Usuario & Cuenta", expanded=True):
+            st.markdown("""
+            * **`user_id` (Identificador del Cliente):** Código único que representa a cada usuario registrado.
+            * **`age_group` (Grupo de Edad):** Rango de edad (ej: 18-24, 25-34 años). Permite entender qué generaciones son más fieles a la plataforma.
+            * **`country` (País):** Región geográfica de la cuenta (ej: US, MX, ES, AR, BR).
+            * **`tenure_months` (Antigüedad):** Cantidad de meses continuos que el usuario lleva con su cuenta activa. A mayor antigüedad, menor suele ser el riesgo de abandono.
+            * **`tenure_cohort` (Cohorte de Lealtad):** Segmentación según el tiempo del cliente:
+              - *New (0-3 meses)*: Período de aclimatación (riesgo alto).
+              - *Growing (4-12 meses)*: Usuario habitual en consolidación.
+              - *Established (1-2 años)*: Cliente fidelizado.
+              - *Loyal (2+ años)*: Usuario muy leal.
+            """)
+            
+        with st.expander("💳 2. Planes & Facturación", expanded=True):
+            st.markdown("""
+            * **`plan_type` (Tipo de Plan):** Modalidad contratada (*Free*, *Premium Individual*, *Premium Student*, *Premium Duo*, *Premium Family*).
+            * **`monthly_fee` (Tarifa Mensual):** Costo en dólares pagado cada mes ($0 en Free hasta $17.99 en Family).
+            * **`payment_method` (Método de Pago):** Medio utilizado para el cobro (Tarjeta de crédito, PayPal, cargo telefónico, etc.).
+            * **`auto_renew` (Renovación Automática):** Si el cobro recurrente mensual está activo. Desactivarlo es una de las primeras señales de que el cliente planea cancelar.
+            * **`estimated_historical_ltv` (Valor Histórico Aportado):** Estimación del dinero total que el usuario ha dejado en la empresa desde su registro (`tarifa mensual × meses de antigüedad`).
+            """)
+
+        with st.expander("🎯 5. Indicadores del Modelo Predictivo", expanded=True):
+            st.markdown("""
+            * **`is_churn` (Variable Objetivo):** Estado de deserción del usuario.
+              - **0 = Activo:** El suscriptor continúa disfrutando del servicio.
+              - **1 = Desertó (Churn):** El usuario canceló o abandonó la aplicación.
+            * **Probabilidad de Churn (%):** Puntuación de 0% a 100% que calcula el modelo para estimar el riesgo de que el cliente cancele en los próximos 30 días.
+            * **Umbral de Alerta (Threshold = 0.40):** El límite fijado para encender la alarma. Si el riesgo es ≥ 40%, el usuario se etiqueta en "Alto Riesgo" para poder intervenir antes de que se vaya.
+            """)
+
+    with g_col2:
+        with st.expander("🎧 3. Hábitos de Escucha & Consumo", expanded=True):
+            st.markdown("""
+            * **`avg_daily_listening_hours` (Horas de Escucha al Día):** Tiempo diario promedio que el usuario pasa escuchando música o podcasts.
+            * **`skip_rate` (Tasa de Canciones Saltadas):** Porcentaje de canciones que el usuario interrumpe antes de que terminen. Un valor alto (> 40%) refleja frustración con las recomendaciones o falta de canciones de su agrado.
+            * **`playlists_created` (Playlists Creadas):** Número de listas personales armadas por el usuario. Cuantas más playlists crea, mayor es el "efecto apego" que le impide irse a otra app.
+            * **`podcast_share` (Gusto por Podcasts):** Proporción del tiempo dedicada a podcasts frente a música (0 = solo música, 0.5 = mitad y mitad).
+            * **`preferred_device` (Dispositivo Principal):** Equipo donde más escucha (Móvil, Computadora, Parlante inteligente, etc.).
+            """)
+
+        with st.expander("📈 4. Métricas de Actividad & Salud (SQL)", expanded=True):
+            st.markdown("""
+            * **`active_days_last_30d` (Días Activos en el Mes):** De los últimos 30 días, en cuántos el usuario ingresó a reproducir contenido.
+            * **`activity_consistency_ratio` (Regularidad Mensual):** Proporción de días activos sobre el total del mes (`días / 30`). Es la variable que mejor predice si un cliente se quedará o no.
+            * **`weighted_listening_hours` (Horas Ponderadas):** Métrica calculada en SQL que combina las horas diarias con la frecuencia mensual, reflejando el volumen real de consumo.
+            * **`weekly_ads_listened` (Anuncios Semanales):** Total de anuncios comerciales escuchados a la semana (solo aplica al plan Free).
+            * **`ad_exposure_per_hour` (Fatiga de Anuncios):** Promedio de publicidad por cada hora escuchada. Permite vigilar si la cantidad de comerciales se vuelve insoportable para el usuario.
+            """)
