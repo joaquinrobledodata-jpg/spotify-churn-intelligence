@@ -116,13 +116,7 @@ streamlit run app/main.py
 
 La aplicación se abrirá automáticamente en tu navegador en `http://localhost:8501`.
 
----
 
-## 💼 6. Cómo Presentar este Proyecto en tu CV / LinkedIn
-
-### Viñetas sugeridas para el CV:
-> **Spotify Churn & User Retention Intelligence** | *Python, SQL, DuckDB, Scikit-Learn, Streamlit, Plotly*
-> * Diseñó y desplegó una solución integral de analítica e inteligencia predictiva para mitigar la deserción de suscriptores sobre una base de más de 25,000 usuarios y logs de actividad.
 > * Construyó el almacén analítico local en **DuckDB** utilizando **SQL** para modelar dimensiones, métricas de engagement (*skip rate*, exposición a anuncios) y pruebas de integridad de datos.
 > * Desarrolló un pipeline de clasificación con **Scikit-Learn (Random Forest)**, optimizando el umbral de decisión para alcanzar un **Recall del 85%** en la detección temprana de cuentas en riesgo.
 > * Implementó una aplicación interactiva en **Streamlit** con diseño temático de Spotify, proveyendo un simulador de riesgo en vivo y estrategias de retención personalizadas para equipos de producto.
