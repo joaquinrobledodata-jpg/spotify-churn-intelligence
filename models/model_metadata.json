@@ -1,0 +1,71 @@
+{
+  "metrics": {
+    "roc_auc": 0.9996,
+    "pr_auc": 0.9981,
+    "recall": 0.9944,
+    "precision": 0.9665,
+    "f1_score": 0.9803,
+    "threshold": 0.4
+  },
+  "top_features": [
+    {
+      "feature": "activity_consistency_ratio",
+      "importance": 0.2914991081220472
+    },
+    {
+      "feature": "active_days_last_30d",
+      "importance": 0.26146045967104004
+    },
+    {
+      "feature": "weighted_listening_hours",
+      "importance": 0.11500401509182759
+    },
+    {
+      "feature": "plan_type_Free",
+      "importance": 0.048169915863003364
+    },
+    {
+      "feature": "weekly_ads_listened",
+      "importance": 0.043473116060065875
+    },
+    {
+      "feature": "payment_method_None",
+      "importance": 0.04013762858984212
+    },
+    {
+      "feature": "monthly_fee",
+      "importance": 0.03806040512232695
+    },
+    {
+      "feature": "ad_exposure_per_hour",
+      "importance": 0.032523028906007875
+    },
+    {
+      "feature": "playlists_created",
+      "importance": 0.032223899547473595
+    },
+    {
+      "feature": "auto_renew",
+      "importance": 0.02742148698134793
+    },
+    {
+      "feature": "payment_method_Credit Card",
+      "importance": 0.015722563770020005
+    },
+    {
+      "feature": "avg_daily_listening_hours",
+      "importance": 0.013277650537714762
+    }
+  ],
+  "confusion_matrix": [
+    [
+      4069,
+      31
+    ],
+    [
+      5,
+      895
+    ]
+  ],
+  "sample_size": 25000
+}

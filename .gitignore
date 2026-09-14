@@ -1,0 +1,19 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.ipynb_checkpoints
+
+# Environment & Credentials
+.env
+kaggle.json
+
+# Database WAL & Temporary files
+*.duckdb.wal
+*.duckdb.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
+
